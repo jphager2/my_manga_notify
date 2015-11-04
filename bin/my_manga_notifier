@@ -1,0 +1,14 @@
+#!/Users/jph/.rvm/rubies/ruby-2.1.5/bin/ruby
+
+require_relative '../lib/my_manga_notifier'
+
+loop do
+  start_at = Time.now
+  next_day_at = start_at + 60 * 60 * 24
+
+  MyManga::Notifier.scheduled_tasks(start_at).each(&:execute)
+
+  now = Time.now
+  time_until_next_day = next_day_at - now
+  sleep(time_until_next_day)
+end
