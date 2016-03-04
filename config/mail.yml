@@ -1,0 +1,13 @@
+mail:
+  sender:
+    address: "smtp.gmail.com"
+    port: 587
+    domain: "gmail.com"
+    user_name: "my.manga.notifier"
+    password: "ButtPoopySofie"
+    authentication: "plain"
+    enable_starttls_auto: true
+  receiver:
+    email: "jphager2@gmail.com"
+    full_name: "John Hager"
+    first_name: "John"

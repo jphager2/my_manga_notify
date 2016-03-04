@@ -35,3 +35,4 @@ module MyManga
 end
 
 MyManga::Notifier.load_tasks
+MyManga::Notifier::Mailer.load_config

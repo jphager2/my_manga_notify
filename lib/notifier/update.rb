@@ -5,7 +5,7 @@ module MyManga
       include Notifier::Persistable
 
       def initialize(*manga, **options)
-        @manga = manga
+        @manga = manga.map { |manga| Manga.find_by_uri(manga) }.compact
         @every = options[:every]
         @schedule = Schedule.new(recurrence: :daily, interval: 1)
       end
@@ -15,7 +15,11 @@ module MyManga
         # look up the manga online
         # compare manga read vs. manga total
         # send an email if the difference is greater than provided by user
-        puts "[Email][Update][#{@manga.join('][')}]"
+
+        Mailer.deliver do |receiver| 
+          { subject: "[Email][Update][#{@manga.map(&:name).join('][')}]",
+            body: "Nothing yet, #{receiver[:first_name]}..." }
+        end
       end
 
       def valid?
