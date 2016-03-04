@@ -6,7 +6,7 @@ loop do
   start_at = Time.now
   next_day_at = start_at + 60 * 60 * 24
 
-  MyManga::Notifier.scheduled_tasks(start_at).each(&:execute)
+  MyManga::Notifier.scheduled_tasks(Date.today).each(&:execute)
 
   now = Time.now
   time_until_next_day = next_day_at - now

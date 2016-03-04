@@ -6,7 +6,8 @@ module MyManga
 
       def initialize(*manga, **options)
         @manga = manga
-        @schedule = Schedule.new(options)
+        @every = options[:every]
+        @schedule = Schedule.new(recurrence: :daily, interval: 1)
       end
 
       def execute
@@ -14,6 +15,11 @@ module MyManga
         # look up the manga online
         # compare manga read vs. manga total
         # send an email if the difference is greater than provided by user
+        puts "[Email][Update][#{@manga.join('][')}]"
+      end
+
+      def valid?
+        @every && @every > 0
       end
     end
   end
