@@ -1,14 +1,31 @@
 #!/Users/jph/.rvm/rubies/ruby-2.1.5/bin/ruby
 
 require_relative '../lib/my_manga_notifier'
+LAST_RUN_PATH = File.expand_path('../../tmp/last_run.log', __FILE__)
+LOG_PATH = File.expand_path('../../logs/daemon.log', __FILE__)
+
+def log(text)
+  File.open(LOG_PATH, 'a') { |f| f.puts(text) }
+end
 
 loop do
   start_at = Time.now
-  next_day_at = start_at + 60 * 60 * 24
 
-  MyManga::Notifier.scheduled_tasks(Date.today).each(&:execute)
+  if File.exist?(LAST_RUN_PATH)
+    last_run = File.read(LAST_RUN_PATH).chomp
+    last_run = Time.at(last_run.to_i).to_date
+  end
 
-  now = Time.now
-  time_until_next_day = next_day_at - now
-  sleep(time_until_next_day)
+  if last_run.nil? || last_run != Date.today
+    log "...start executing tasks..."
+    MyManga::Notifier.scheduled_tasks(Date.today).each(&:execute)
+    File.open(LAST_RUN_PATH, 'w') { |f| f.write(start_at.to_i) }
+    log "...finished executing tasks..."
+  else
+    log "...already run today..."
+  end
+
+  log "...sleeping for 1 hour..."
+  sleep(60 * 60)
+  log "...awoke..."
 end

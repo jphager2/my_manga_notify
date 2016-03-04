@@ -12,9 +12,15 @@ module MyManga
 
       def execute
         # Basically just an email with the output from my_manga list
-        puts "[Email][Summary][#{@manga.join('][')}]"
+        subject = "Summary - #{@manga.map(&:name).join(', ')}"
+        body = "" 
         @manga.each do |manga|
-          puts `my_manga list "#{manga.name}"`
+          body << `my_manga list "#{manga.name}"` + "\n"
+        end
+
+        Mailer.deliver do |receiver| 
+          { subject: subject,
+            body: body }
         end
       end
 

@@ -15,9 +15,10 @@ module MyManga
         # look up the manga online
         # compare manga read vs. manga total
         # send an email if the difference is greater than provided by user
+        subject = "Update - #{@manga.map(&:name).join(', ')}"
 
         Mailer.deliver do |receiver| 
-          { subject: "[Email][Update][#{@manga.map(&:name).join('][')}]",
+          { subject: subject,
             body: "Nothing yet, #{receiver[:first_name]}..." }
         end
       end
