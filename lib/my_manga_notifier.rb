@@ -1,6 +1,7 @@
 require 'yaml'
 require 'pathname'
 
+require 'mangdown'
 require_relative '../../my_manga/db/environment'
 
 require_relative 'notifier/schedule'

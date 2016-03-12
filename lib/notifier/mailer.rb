@@ -49,7 +49,10 @@ module MyManga
           to options[:to]
           from options[:from]
           subject options [:subject]
-          body options[:body]
+          html_part do
+            content_type 'text/html; charset=UTF-8'
+            body options[:body]
+          end
         end
       end
     end

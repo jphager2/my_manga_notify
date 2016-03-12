@@ -5,7 +5,7 @@ LAST_RUN_PATH = File.expand_path('../../tmp/last_run.log', __FILE__)
 LOG_PATH = File.expand_path('../../logs/daemon.log', __FILE__)
 
 def log(text)
-  File.open(LOG_PATH, 'a') { |f| f.puts(text) }
+  File.open(LOG_PATH, 'a') { |f| f.puts("[#{Time.now}] #{text}") }
 end
 
 loop do

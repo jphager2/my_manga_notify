@@ -5,14 +5,14 @@ module MyManga
       include Notifier::Persistable
 
       def initialize(*manga, **options)
-        @manga = manga.map { |manga| Manga.find_by_uri(manga) }.compact
+        @manga = manga.map { |manga| Manga.find_by!(uri: manga) }.compact
         options = process_options(options)
         @schedule = Schedule.new(options)
       end
 
       def execute
         # Basically just an email with the output from my_manga list
-        subject = "Summary - #{@manga.map(&:name).join(', ')}"
+        subject = "Summary - #{@manga.map(&:name).join(', ')} - #{Date.today}"
         body = "" 
         @manga.each do |manga|
           body << `my_manga list "#{manga.name}"` + "\n"
