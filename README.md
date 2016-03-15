@@ -2,6 +2,8 @@ This is a library that sends allows users to watch mangas based on a url and the
 
 Users can manage their notifications. They can either remove notifications, or update the time or manga related to notifications.
 
+Set up your notifications in the `~/.my_manga_notifications` file.
+
 Set up a notification for the "Detective Conan" manga, so that a new notification is sent every 5 new chapters
 ```
 MyManga::Notifier::Update.new("http://www.mangareader.net/detective-conan", every: 5)
